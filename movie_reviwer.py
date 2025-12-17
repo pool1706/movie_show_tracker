@@ -176,9 +176,9 @@ class ShowEntry(MediaEntry) : #order should be same as parent class-- self, titl
      #sceniores - whole show review , no season or episode number mentioned
      #          - a particular season reviwew , season number mentioned
      #          - episode reviw - season number and episode number mentioned
-       if self.episode :   #exists  
+       if self.episode_number is not None :   #exists  
           return f"SERIES : {base_str} | SEASON NUMBER : {self.season_number} | EPISODE NUMBER : {self.episode_number}"
-       elif self.season :
+       elif self.season_review is not None :
           return f"SERIES : {base_str} | SEASON NUMBER : {self.season_number}"
        return f"SERIES : {base_str}"
 
@@ -218,13 +218,15 @@ class Manager :
      #first check if the title is in the list
      #this mechanism already works in finding index function ,so we'll use ot , before givning index we check there if the title is in the list
       index = self.find_index(title)
-      print(f" title found :  {self.entries[index]}")
+      print(f" title found :  {self.entries[index]}") #prints object through str
      #instead lets make a varaible for the object
       entry = self.entries[index]
      #if u juss say self.entries[index] , thats the object , when u print it , __str__ will printed
+
       if index == -1 :
           print("entered title is invalid")
-          k = input(int("ENTER 1 to edit the title \n ENTER 2 to the rating \n ENTER 3 to edit the genre \n ENTER 4 to edit the review text  "))
+     
+      k = int(input("ENTER 1 to edit the title \n ENTER 2 to the rating \n ENTER 3 to edit the genre \n ENTER 4 to edit the review text \n "))
      
       if k == 1 :
           newtitle = input(print("Enter the edit for the title"))
@@ -233,19 +235,19 @@ class Manager :
 
       elif k == 2 :
           try :
-               newrating = int(input(print("Enter the new rating : ")))
+               newrating = int(input("Enter the new rating : "))
                entry.rating = newrating #rating varaible when brought up here uses @property setter behavaing like a function call , so it checks if rating is from 0 to 10
           except ValueError as e :
                print(f"Error : {e}")
 
       elif k == 3 :
-          newgenre = input(print('Enter the new genre'))
+          newgenre = input('Enter the new genre')
           entry.genre = newgenre
           print(f"genre updated to {newgenre}")
 
       elif k == 4 :
           print(f"entered review : {entry.review_text}")
-          newreview = input(print("Enter the new review"))
+          newreview = input("Enter the new review")
           entry.review_text = newreview
           print(f"new entered review : {newreview} ")
      
@@ -360,8 +362,8 @@ if __name__ == "__main__" :        # python assigns __ name__( nametag ) to any 
              logbook.showall()
 
         elif choice == "4" :
-             title = input("Enter title of the movie/show you wish to edit : ")
-             logbook.edit_entry(title)
+             ttl = input("Enter title of the movie/show you wish to edit : ")
+             logbook.edit_entry(ttl)
 
         elif choice == "5":
              gen = input("Enter the Genre u wish to search : ")
